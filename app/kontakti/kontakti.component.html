@@ -1,0 +1,37 @@
+<div class="container">
+    <h3 class="films-title">Фильмы</h3>
+    <div class="genre-group">
+    <a *ngFor="let genre of genres | keyvalue" routerLink="/genre/{{genre.key}}" class="btn genre">{{genre.value}}</a>
+  </div>
+  <div class="top">
+    <a class="top-rated" routerLink="/toprated"> Топ 100 </a>
+  </div>
+    <form class="search-form">
+      <div class="form-group">
+      <input id="search" placeholder="Напишите название..." type="text" name="term" [(ngModel)]="term">
+      <button (click)="onPageChange(term, 1)" class="btn btn-success">Поиск</button>
+    </div>
+  </form>
+  <div class="card-content">
+    <div class="row">
+        <div class="card" *ngFor="let film of data | paginate: { 
+            id: 'listing_pagination',
+            itemsPerPage: 20,
+            currentPage: page,
+            totalItems: totalRecords
+          }">
+            <img class="card-img-top" src="https://www.themoviedb.org/t/p/w500/{{ film.poster_path }}">
+            <div class="card-body">
+                <a class="card-title genres" routerLink="/profile/{{film.id}}"> {{film.title}} </a>
+                <p class="card-text"> {{film.release_date | date: 'YYYY'}}, <span
+                        *ngFor='let genre of film.genre_ids'>{{ genres[genre] }}</span> </p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="pag">
+      <pagination-controls id="listing_pagination" directionalLinks="true" (pageChange)="onPageChange( term, $event)">
+      </pagination-controls>
+    </div>
+
+  </div>

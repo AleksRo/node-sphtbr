@@ -1,0 +1,26 @@
+<div class="container">
+    
+    <div class="card-content">
+        <h1 class="top-title">ТОП</h1>
+        <div class="row">
+            <div class="card" *ngFor="let film of data | paginate: { 
+            id: 'listing_pagination',
+            itemsPerPage: 20,
+            currentPage: page,
+            totalItems: totalRecords
+          }">
+                <img class="card-img-top" src="https://www.themoviedb.org/t/p/w500/{{ film.poster_path }}">
+                <div class="card-body">
+                    <a class="card-title genres" routerLink="/profile/{{film.id}}"> {{film.title}} </a>
+                    <p class="card-text"> {{film.release_date | date: 'YYYY'}}, <span
+                            *ngFor='let genre of film.genre_ids'>{{ genres[genre] }}</span> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pag">
+        <pagination-controls id="listing_pagination" directionalLinks="true" (pageChange)="onPageChange( term, $event)">
+        </pagination-controls>
+    </div>
+</div>
